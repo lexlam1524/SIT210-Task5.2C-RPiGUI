@@ -1,0 +1,47 @@
+from tkinter import *
+import tkinter.font
+from gpiozero import LED
+import RPi.GPIO 
+RPi.GPIO.setmode(RPi.GPIO.BCM)
+
+RedLed = LED(2)
+GreenLed = LED(3)
+BlueLed = LED(4)
+
+win = Tk()
+win.title("LED Toggler")
+myFont = tkinter.font.Font(family = 'Helveia',size = 12, weight = "bold")
+
+def turnledoff():
+	RedLed.off()
+	GreenLed.off()
+	BlueLed.off()
+
+def RedLedOn():
+	turnledoff()
+	RedLed.on()
+	
+def GreenLedOn():
+	turnledoff()
+	GreenLed.on()
+	
+def BlueLedOn():
+	turnledoff()
+	BlueLed.on()
+	
+def close():
+	turnledoff()
+	RPi.GPIO.cleanup()
+	win.destory()
+
+RedLedButton = Button(win,text = 'Turn Red LED on', font = myFont, command = RedLedOn, bg = 'red', height = 1, width = 24)
+RedLedButton.grid(row=0,column=1)
+GreenLedButton = Button(win,text = 'Turn Green LED on', font = myFont, command = GreenLedOn, bg = 'green', height = 1, width = 24)
+GreenLedButton.grid(row=1,column=1)
+BlueLedButton = Button(win,text = 'Turn Blue LED on', font = myFont, command = BlueLedOn, bg = 'blue', height = 1, width = 24)
+BlueLedButton.grid(row=2,column=1)
+ExitButton = Button(win,text = 'Exit', font = myFont, command = close, bg = 'bisque2', height = 1, width = 24)
+ExitButton.grid(row=3,column=1)
+
+win.protocol("HM_DELETE_WINDOW",close)
+win.mainloop()
